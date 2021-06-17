@@ -368,18 +368,22 @@ arr
 
     return akey.localeCompare(bkey) || +new Date(a.time) - +new Date(b.time);
   })
-  .forEach(
-    (d, i, t) =>
-      i == 0 ||
-      (getKey(d) == getKey(t[i - 1]) &&
-        getTimeDiff(t[i - 1].time, d.time) / 1000 < 60)
-        ? res.push((res.pop() || []).concat(d))
-        : res.push([])
-    // ? res.push((res.pop() || []).concat(d))
-    // : res.push([d])
+  .forEach((d, i, t) =>
+    i == 0 ||
+    (getKey(d) == getKey(t[i - 1]) &&
+      getTimeDiff(t[i - 1].time, d.time) / 1000 < 60)
+      ? res.push((res.pop() || []).concat(d))
+      : res.push([d])
   );
-console.log(res);
-var newArr = res.filter(function (item) {
-  return item.length !== 0;
+
+let newArr = res.filter(function (item) {
+  return item.length > 1;
 });
-console.log(newArr);
+
+let finalArray = newArr.sort(function ([a], [b]) {
+  return new Date(a.time) - new Date(b.time);
+});
+
+console.log(finalArray);
+
+// console.log(res);
